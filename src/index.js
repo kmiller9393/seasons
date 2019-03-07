@@ -1,33 +1,40 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import './index.css';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      location: {
-        latitude: null,
-        longitude: null
-      }
+      latitude: null,
+      errorMessage: '',
+      loading: true
     };
+
+    window.navigator.geolocation.getCurrentPosition(
+      position => {
+        this.setState({
+          latitude: position.coords.latitude,
+          loading: false
+        });
+      },
+      error => {
+        this.setState({
+          errorMessage: error.message,
+          loading: false
+        });
+      }
+    );
   }
 
   render() {
-    window.navigator.geolocation.getCurrentPosition(
-      position =>
-        this.setState({
-          location: {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude
-          }
-        }),
-      error => console.log(error)
-    );
+    const { loading, latitude, errorMessage } = this.state;
 
     return (
-      <div>
-        <p>latitude: {this.state.location.latitude}</p>
-        <p>longitude: {this.state.location.longitude}</p>
+      <div className="App">
+        {loading && <p>Loading...</p>}
+        {latitude && <p>Latitude: {latitude}</p>}
+        {errorMessage && <p>Error: {errorMessage}</p>}
       </div>
     );
   }
