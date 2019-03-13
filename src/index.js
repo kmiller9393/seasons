@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import SeasonDisplay from './SeasonDisplay';
-import './index.css';
 
 class App extends Component {
   constructor() {
@@ -34,7 +33,7 @@ class App extends Component {
     const { loading, latitude, errorMessage } = this.state;
 
     return (
-      <div className="App">
+      <div>
         {loading && <p>Loading...</p>}
         {latitude && <SeasonDisplay latitude={latitude} />}
         {errorMessage && <p>Error: {errorMessage}</p>}
